@@ -1,0 +1,3 @@
+main > 단위테스트
+throws: 중간코드 이거나 예외를 변경할때
+try-catch: ui or 메세지를 주려할때
