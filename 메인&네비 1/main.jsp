@@ -173,48 +173,49 @@ a.slide_btn {
   }
 }
 .arrow {
-	position: fixed;
-	bottom: 50px;
-	left: 50%;
-	cursor: pointer;
-	margin-left: -20px;
-	width: 20px;
-	height: 20px;
-	padding: 20px;
-	z-index: 99;
-	background-color: var(- -clr4);
-	border-radius: 50em;
-	background-size: 20px 15px;
-	background-repeat: no-repeat;
-	background-position: center;
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  cursor: pointer;
+  margin-left: -20px;
+  width: 20px;
+  height: 20px;
+  padding: 20px;
+  z-index: 99;
+  background-color: var(--clr4);
+  border-radius: 50em;
+  
+  background-size: 20px 15px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .bounce {
-	-moz-animation: bounce 2s infinite;
-	-webkit-animation: bounce 2s infinite;
-	animation: bounce 2s infinite;
+  -moz-animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
 }
 
 span {
-	background: #ffffff;
-	display: block;
-	height: 4px;
-	position: absolute;
-	top: 18px;
-	transition: all 0.15s 0s ease-out;
-	width: 14px;
+  background: #ffffff;
+  display: block;
+  height: 4px;
+  position: absolute;
+  top: 18px;
+  transition: all 0.15s 0s ease-out;
+  width: 14px;
 }
 
 span.left {
-	right: 9px;
-	-webkit-transform: rotate(45deg);
-	transform: rotate(45deg);
+  right: 9px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
 }
 
 span.right {
-	left: 9px;
-	-webkit-transform: rotate(-45deg);
-	transform: rotate(-45deg);
+  left: 9px;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
 }
 </style>
 <script type="text/javascript">
@@ -291,10 +292,11 @@ span.right {
 	<div class="cards">
 
 		<a class="smoothScroll" href="#top">
-			<div class="arrow animated bounce">
-				<span class="left"></span> <span class="right"></span>
-			</div>
-		</a>
+    <div class="arrow animated bounce"> 
+         <span class="left"></span>
+        <span class="right"></span>  
+    </div>
+    </a>
 
 		<div class="main">
 			<form id="join" name="join" onsubmit="return validate();"
@@ -537,136 +539,141 @@ span.right {
 		src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
 	<script type="text/javascript">
-		$(document).ready(function() {
-			var zindex = 10;
+	$(document).ready(function(){
+		  var zindex = 10;
+		  
+		  $("div.card").click(function(e){
+		    e.preventDefault();
 
-			$("div.card").click(function(e) {
-				e.preventDefault();
+		    var isShowing = false;
 
-				var isShowing = false;
+		    if ($(this).hasClass("show")) {
+		      isShowing = true
+		    }
 
-				if ($(this).hasClass("show")) {
-					isShowing = true
-				}
+		    if ($("div.cards").hasClass("showing")) {
+		      // a card is already in view
+		      $("div.card.show")
+		        .removeClass("show");
 
-				if ($("div.cards").hasClass("showing")) {
-					// a card is already in view
-					$("div.card.show").removeClass("show");
+		      if (isShowing) {
+		        // this card was showing - reset the grid
+		        $("div.cards")
+		          .removeClass("showing");
+		      } else {
+		        // this card isn't showing - get in with it
+		        $(this)
+		          .css({zIndex: zindex})
+		          .addClass("show");
 
-					if (isShowing) {
-						// this card was showing - reset the grid
-						$("div.cards").removeClass("showing");
-					} else {
-						// this card isn't showing - get in with it
-						$(this).css({
-							zIndex : zindex
-						}).addClass("show");
+		      }
 
-					}
+		      zindex++;
 
-					zindex++;
+		    } else {
+		      // no cards in view
+		      $("div.cards")
+		        .addClass("showing");
+		      $(this)
+		        .css({zIndex:zindex})
+		        .addClass("show");
 
-				} else {
-					// no cards in view
-					$("div.cards").addClass("showing");
-					$(this).css({
-						zIndex : zindex
-					}).addClass("show");
-
-					zindex++;
-				}
-
-			});
+		      zindex++;
+		    }
+		    
+		  });
 		});
 
+
+
 		$('.slider').each(function() {
-			var $this = $(this);
-			var $group = $this.find('.slide_group');
-			var $slides = $this.find('.slide');
-			var bulletArray = [];
-			var currentIndex = 0;
-			var timeout;
-
-			function move(newIndex) {
-				var animateLeft, slideLeft;
-
-				advance();
-
-				if ($group.is(':animated') || currentIndex === newIndex) {
-					return;
-				}
-
-				bulletArray[currentIndex].removeClass('active');
-				bulletArray[newIndex].addClass('active');
-
-				if (newIndex > currentIndex) {
-					slideLeft = '100%';
-					animateLeft = '-100%';
-				} else {
-					slideLeft = '-100%';
-					animateLeft = '100%';
-				}
-
-				$slides.eq(newIndex).css({
-					display : 'block',
-					left : slideLeft
-				});
-				$group.animate({
-					left : animateLeft
-				}, function() {
-					$slides.eq(currentIndex).css({
-						display : 'none'
-					});
-					$slides.eq(newIndex).css({
-						left : 0
-					});
-					$group.css({
-						left : 0
-					});
-					currentIndex = newIndex;
-				});
-			}
-
-			function advance() {
-				clearTimeout(timeout);
-				timeout = setTimeout(function() {
-					if (currentIndex < ($slides.length - 1)) {
-						move(currentIndex + 1);
-					} else {
-						move(0);
-					}
-				}, 4000);
-			}
-
-			$('.next_btn').on('click', function() {
-				if (currentIndex < ($slides.length - 1)) {
-					move(currentIndex + 1);
-				} else {
-					move(0);
-				}
-			});
-
-			$('.previous_btn').on('click', function() {
-				if (currentIndex !== 0) {
-					move(currentIndex - 1);
-				} else {
-					move(3);
-				}
-			});
-
-			$.each($slides, function(index) {
-				var $button = $('<a class="slide_btn">&bull;</a>');
-
-				if (index === currentIndex) {
-					$button.addClass('active');
-				}
-				$button.on('click', function() {
-					move(index);
-				}).appendTo('.slide_buttons');
-				bulletArray.push($button);
-			});
-
-			advance();
+		  var $this = $(this);
+		  var $group = $this.find('.slide_group');
+		  var $slides = $this.find('.slide');
+		  var bulletArray = [];
+		  var currentIndex = 0;
+		  var timeout;
+		  
+		  function move(newIndex) {
+		    var animateLeft, slideLeft;
+		    
+		    advance();
+		    
+		    if ($group.is(':animated') || currentIndex === newIndex) {
+		      return;
+		    }
+		    
+		    bulletArray[currentIndex].removeClass('active');
+		    bulletArray[newIndex].addClass('active');
+		    
+		    if (newIndex > currentIndex) {
+		      slideLeft = '100%';
+		      animateLeft = '-100%';
+		    } else {
+		      slideLeft = '-100%';
+		      animateLeft = '100%';
+		    }
+		    
+		    $slides.eq(newIndex).css({
+		      display: 'block',
+		      left: slideLeft
+		    });
+		    $group.animate({
+		      left: animateLeft
+		    }, function() {
+		      $slides.eq(currentIndex).css({
+		        display: 'none'
+		      });
+		      $slides.eq(newIndex).css({
+		        left: 0
+		      });
+		      $group.css({
+		        left: 0
+		      });
+		      currentIndex = newIndex;
+		    });
+		  }
+		  
+		  function advance() {
+		    clearTimeout(timeout);
+		    timeout = setTimeout(function() {
+		      if (currentIndex < ($slides.length - 1)) {
+		        move(currentIndex + 1);
+		      } else {
+		        move(0);
+		      }
+		    }, 4000);
+		  }
+		  
+		  $('.next_btn').on('click', function() {
+		    if (currentIndex < ($slides.length - 1)) {
+		      move(currentIndex + 1);
+		    } else {
+		      move(0);
+		    }
+		  });
+		  
+		  $('.previous_btn').on('click', function() {
+		    if (currentIndex !== 0) {
+		      move(currentIndex - 1);
+		    } else {
+		      move(3);
+		    }
+		  });
+		  
+		  $.each($slides, function(index) {
+		    var $button = $('<a class="slide_btn">&bull;</a>');
+		    
+		    if (index === currentIndex) {
+		      $button.addClass('active');
+		    }
+		    $button.on('click', function() {
+		      move(index);
+		    }).appendTo('.slide_buttons');
+		    bulletArray.push($button);
+		  });
+		  
+		  advance();
 		});
 	</script>
 
