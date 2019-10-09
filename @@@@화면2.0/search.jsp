@@ -1062,14 +1062,10 @@ input[type=submit]:hover {
 		<div class="bott"></div>
 	</div>
     		</div>
-   		 </div>
-    </div>
-    
-    <div class="swiper-container tabs-content">
-  		<div class="swiper-wrapper">
-    		<div class="swiper-slide">
+   		 
+   		 	<div class="swiper-slide">
       		<div class="page main">
-		<c:forEach items="${mainData}" var="mainVO">
+		<c:forEach items="${searchBazaarData}" var="mainVO">
 			<div class="cardee ripple">
 				<c:choose>
 			       <c:when test="${mainVO.sell_condition == '거래 중'}">
@@ -1096,7 +1092,12 @@ input[type=submit]:hover {
     		</div>
    		 </div>
     </div>
-
+    
+    
+    
+    
+    
+    
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.min.js"></script>
