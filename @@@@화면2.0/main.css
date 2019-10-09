@@ -1,0 +1,113 @@
+.page {
+  min-height: calc(100vh - 56px);
+  max-height: calc(100vh - 56px);
+  width: 100%;
+  left: 0;
+  margin-top: 10px;
+  will-change: transform;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+  
+}
+.main.disabled {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+
+.cardee {
+  flex: auto;
+  align-self: flex-start;
+  height: 0px;
+  width: 200px;
+  min-width: 175px;
+  max-width: 225px;
+  margin: 6px;
+  position: relative;
+  
+}
+.pname {
+  content: '';
+  background: #FFF;
+  height: 43px;
+  width: 100%;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.badg {
+    font-size: 55%;
+    font-weight: 700;
+    padding: 1px 6px 2px 5px;
+    color: black;
+    position: relative;
+    top: -1px;
+    text-shadow: none !important;
+    white-space: nowrap;
+    letter-spacing: 0;
+    position: absolute;
+}
+.badge-ing {
+    background: #ffdd40;
+}
+.badge-com {
+    background: #808080;
+    color: #fff;
+}
+
+.cardee img {
+  width: 100%;
+}
+
+.ripple {
+  overflow: hidden;
+  position: relative;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+}
+.ripple .rippling {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #000;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  opacity: .2;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+          transform: translate3d(-50%, -50%, 0);
+  will-change: width, height;
+}
+@media (max-width: 756px) {
+  .bottom {
+    display: block;
+    height: 20px;
+    width: 100%;
+  }
+
+  .cardee {
+    width: 25vw;
+    min-width: 100px;
+    max-width: 28vw;
+  }
+}
+@media (max-width: 480px) {
+  .cardee {
+    width: 35vw;
+    min-width: 80px;
+    max-width: 45vw;
+  }
+}
