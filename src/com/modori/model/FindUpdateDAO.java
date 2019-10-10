@@ -12,9 +12,9 @@ public class FindUpdateDAO {
 		try {
 			String cs = "com.mysql.jdbc.Driver";
 			Class.forName(cs); 
-			String url = "jdbc:mysql://127.0.0.1:3306/jh";
+			String url = "jdbc:mysql://localhost:3306/modori?useSSL=false&characterEncoding=utf-8";
 			String id = "root";
-			String pw = "1111";
+			String pw = "qwer1234";
 			conn = DriverManager.getConnection(url, id, pw);
 
 		}catch (Exception e) {

@@ -5,26 +5,23 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.modori.model.AuctionDAO;
-import com.modori.model.BazaarDAO;
-import com.modori.model.GroupBuyingDAO;
-import com.modori.model.ProductDAO;
 
-public class MainAction implements Action {
 
+public class AuctionAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		request.setAttribute("productData", new ProductDAO().productCon());
-		request.setAttribute("bazaarData", new BazaarDAO().bazaarCon());
-		request.setAttribute("groupBuyingData", new GroupBuyingDAO().groupCon());
-		
 		String page = "main.jsp";
 		
+		request.setAttribute("auctionData", new AuctionDAO().auctionCon());
+		page = "auction.jsp";
+
 		return page;
 	}
+
 
 }

@@ -7,25 +7,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.modori.model.FindUpdateDAO;
+import com.modori.model.DeclareDAO;
+import com.modori.model.MyPageDAO;
 
-public class FindUpdate2Action implements Action {
+public class MyPageDeclareListAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String page = "find3.jsp";
+
+		String page = "myPage.jsp";
 		
 		HttpSession session = request.getSession(true);
-		int id = (int)session.getAttribute("findOK");
-
-		String pw = request.getParameter("pw");
-
-		if(new FindUpdateDAO().update(pw,id)) {
-			page = "login.jsp";
-		}
+		int id = (int)session.getAttribute("loginOK");
+		
+		request.setAttribute("myData", new MyPageDAO().myPageCon(id));
+		request.setAttribute("declareListData", new DeclareDAO().declareListCon(id));
+		page = "myPageDeclareList.jsp";
+		
 		return page;
 	}
-
 
 }

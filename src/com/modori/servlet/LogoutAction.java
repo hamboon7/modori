@@ -7,25 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.modori.model.FindUpdateDAO;
-
-public class FindUpdate2Action implements Action {
+public class LogoutAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String page = "find3.jsp";
-		
-		HttpSession session = request.getSession(true);
-		int id = (int)session.getAttribute("findOK");
-
-		String pw = request.getParameter("pw");
-
-		if(new FindUpdateDAO().update(pw,id)) {
-			page = "login.jsp";
-		}
-		return page;
+		// 만일 세션이 있으면 서버에서 모두 해제
+		HttpSession session = request.getSession();
+		if(session != null)
+			session.invalidate(); // 서버차원에서 해제
+		return "index.jsp";
 	}
-
 
 }
