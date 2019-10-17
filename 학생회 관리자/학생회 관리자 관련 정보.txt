@@ -1,0 +1,100 @@
+학생회 관리자 설명
+studentAdmin.jsp : 학생회 관리자 메인 화면studentBazaarAdmin.jsp : 바자회 회차별 화면(메뉴에서 바자회 관리에서 회차별로 누르면 나오는 화면)studentBazzarEnroll.jsp : 바자회 등록 화면studentBazzarInfoAdmin.jsp : 메뉴에서 바자회 관리 누르면 나오는 화면(바자회 정보 화면)studentBazzarInfoUpdateAdmin.jsp : 바자회 정보 화면에서 연필 버튼 누르면 나오는 바자회 정보 수정 화면studentCountAdmin.jsp : 메뉴에서 도서/대여관리에서 재고관리 누르면 나오는 화면studentDamageAdmin.jsp : 메뉴에서 도서/대여관리에서 훼손관리 누르면 나오는 화면
+
+-------------------------------------------------
+book.jsp 수정부분(훼손된 책은 클릭 안됨, 사진 회색처리, 훼손 span 앞으로 보내기 css)
+----------css 부분(z-index: 1; 추가됨)
+.badg {
+    font-size: 55%;
+    font-weight: 700;
+    padding: 1px 6px 2px 5px;
+    color: black;
+    position: relative;
+    top: -1px;
+    text-shadow: none !important;
+    white-space: nowrap;
+    letter-spacing: 0;
+    position: absolute;
+    z-index: 1;  
+} 
+---------- 화면 부분(도서/대여예약 부분)
+<c:forEach items="${bookData}" var="bookVO">
+  <div class="cardee ripple">
+      <c:choose>
+            <c:when test="${bookVO.book_enroll_condition == 0}">
+            </c:when>
+            <c:when test="${bookVO.book_enroll_condition == 1}">
+               <span class="badg badge-ing">대여중</span>
+            </c:when>
+            <c:when test="${bookVO.book_enroll_condition == 2}">
+               <span class="badg badge-rec">예약중</span>
+            </c:when>
+            <c:when test="${bookVO.book_enroll_condition == 3}">
+               <span class="badg badge-danger">훼손</span>
+            </c:when>
+      </c:choose>
+      <c:choose>
+         <c:when test="${bookVO.book_enroll_condition == 3}">
+            <img class="finish__image" src="img/${bookVO.book_img}" height="300" />
+         </c:when>
+         <c:otherwise>
+        	<a href="Controller?cmd=rentalBookAction&number=${bookVO.book_num}">
+           		<img src="img/${bookVO.book_img}" height="300" />
+         	</a>
+         </c:otherwise>
+      </c:choose>
+     <input type="hidden" name="num" value="${bookVO.book_num}">
+     <div class="pname">
+        <c:out value="${bookVO.book_name}" />
+     </div>
+  </div>
+</c:forEach>
+
+--------------------------------------------------------------
+컨트롤러에 추가되는 부분(맨밑에 추가하면 될거같음)
+---------------------
+case "studentAdminAction":
+	a = new StudentAdminAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilBazzarEnrollUI":
+	page="studentBazzarEnroll.jsp";
+	break;
+case "studentCouncilBazzarInfoAction":
+	a = new StudentCouncilBazzarInfoAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilBazzarInfoUpdateAction":
+	a = new StudentCouncilBazzarInfoUpdateAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilBazzarUpdateAction":
+	a = new StudentCouncilBazzarUpdateAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilBazzarEnrollAction":
+	a = new StudentCouncilBazzarEnrollAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilBazzarAction":
+	a = new StudentCouncilBazzarAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilBookCountAction":
+	a = new StudentCouncilBookCountAction();
+	page = a.execute(request, response);
+	break;
+case "studentCouncilDamageAction":
+	a = new StudentCouncilDamageAction();
+	page = a.execute(request, response);
+	break;
+
+-----------------------------------------------------
+액션 추가 부분
+--------
+LoginAction.java : 관리자들 아이디에 맞게 추가StudentAdminAction.java : 학생회 관리자 메인에 관한 액션StudentCouncilBazzarInfoUpdateAction.java : 바자회 정보 수정화면 바자회 정보 데이터 띄워주기 위한 액션StudentCouncilBazzarUpdateAction.java : 바자회 정보 버튼 누르면 실행되는 액션StudentCouncilBazzarAction.java : 바자회 관리 회차별 화면에 관한 액션StudentCouncilBazzarEnrollAction.java : 바자회 등록버튼 누르면 실행되는 액션StudentCouncilBazzarInfoAction.java : 바자회 정보 화면에 데이터 띄워주기 위한 액션StudentCouncilBookCountAction.java : 바자회 도서 대여/예약 재고관리 액션StudentCouncilDamageAction.java : 훼손관리 액션
+
+----------------------------------------------
+DAO 추가 부분
+---------
+StudentCouncilBazaarCountVO.java : 학생회 관리자 바자회 그래프 관련 VOStudentCouncilBazaarVO.java : 학생회 관리자 바자회 회차별 화면 관련 VOStudentCouncilBookVO.java : 학생회 관리자 바자회 도서 대여/예약 관련 VOStudentCouncilDAO.java : 학생회 관리자 관련 모든 DAO
